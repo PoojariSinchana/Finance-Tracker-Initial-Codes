@@ -8,6 +8,9 @@
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx"
   },
+  "allowScripts": {
+    "esbuild": true
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "autoprefixer": "^10.5.4",
