@@ -22,15 +22,15 @@ function Budget() {
     if (budget?.monthlyBudget !== undefined) {
       setMonthlyBudget(budget.monthlyBudget)
     }
-    if (budget?.categoryBudgets) {
-      setCategoryBudgets(budget.categoryBudgets)
+    if (budget?.categories) {
+      setCategoryBudgets(budget.categories)
     }
-  }, [budget.monthlyBudget, budget.categoryBudgets])
+  }, [budget.monthlyBudget, budget.categories])
 
   const loadSummary = async () => {
     try {
-      const data = await getDashboardSummary()
-      setSummary(data)
+      const response = await getDashboardSummary()
+      setSummary(response.data.data)
     } catch (err) {
       console.error('Failed to load dashboard summary', err)
     }
@@ -121,7 +121,9 @@ function Budget() {
 
             <div className="space-y-3">
               {categoryBudgets.map((item, i) => {
-                const spent = summary?.categoryBreakdown?.[item.category] || 0
+                const spent = summary?.categoryBreakdown?.find(
+                  (entry) => entry.category === item.category
+                )?.amount || 0
                 const percent = item.limit > 0 ? Math.min((spent / item.limit) * 100, 100) : 0
 
                 return (
