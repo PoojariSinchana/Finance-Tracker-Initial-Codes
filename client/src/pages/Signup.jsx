@@ -35,24 +35,26 @@ function Signup() {
       await dispatch(signupUser({ name, email, password })).unwrap()
       navigate('/dashboard')
     } catch (err) {
-      setError(err?.message || 'Failed to create account. Please try again.')
+      setError(typeof err === 'string' ? err : 'Failed to create account. Please try again.')
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">FinTrack</h1>
+    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center px-4 sm:px-6">
+      <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8 w-full max-w-sm sm:max-w-md">
+        <h1 className="text-xl sm:text-2xl font-bold text-center text-gray-800 mb-6">
+          FinTrack
+        </h1>
 
         {error && (
-          <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-sm">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700 font-medium mb-1">
+            <label htmlFor="name" className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
               Full Name
             </label>
             <input
@@ -62,12 +64,12 @@ function Signup() {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
+            <label htmlFor="email" className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
               Email
             </label>
             <input
@@ -77,12 +79,12 @@ function Signup() {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-1">
+            <label htmlFor="password" className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
               Password
             </label>
             <input
@@ -92,12 +94,13 @@ function Signup() {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              minLength={6}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-1">
+            <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
               Confirm Password
             </label>
             <input
@@ -107,20 +110,21 @@ function Signup() {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              minLength={6}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-white font-medium py-2 rounded-md hover:opacity-90 transition disabled:opacity-50"
+            className="w-full bg-primary text-white font-medium py-2.5 sm:py-2 rounded-md hover:opacity-90 transition disabled:opacity-50 text-sm sm:text-base"
           >
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>
         </form>
 
-        <p className="mt-4 text-center text-gray-600 text-sm">
+        <p className="mt-4 text-center text-gray-600 text-xs sm:text-sm">
           Already have an account?{' '}
           <Link to="/login" className="text-primary font-medium hover:underline">
             Log in

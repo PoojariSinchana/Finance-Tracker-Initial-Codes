@@ -78,33 +78,33 @@ function Transactions() {
   }
 
   const submitForm = async (event) => {
-  event.preventDefault()
-  setMessage('')
+    event.preventDefault()
+    setMessage('')
 
-  if (!form.amount || Number(form.amount) <= 0) {
-    setMessage('Amount must be greater than zero.')
-    return
+    if (!form.amount || Number(form.amount) <= 0) {
+      setMessage('Amount must be greater than zero.')
+      return
+    }
+
+    try {
+      const payload = { ...form, amount: Number(form.amount) }
+
+      await dispatch(
+        saveTransaction({ id: editingId, data: payload })
+      ).unwrap()
+
+      setShowForm(false)
+      dispatch(fetchTransactions(query))
+      setMessage(editingId ? 'Transaction updated.' : 'Transaction added.')
+    } catch (err) {
+      const text =
+        typeof err === 'string'
+          ? err
+          : err?.message || 'Failed to save transaction.'
+      console.error('saveTransaction error:', err)
+      setMessage(text)
+    }
   }
-
-  try {
-    const payload = { ...form, amount: Number(form.amount) }
-
-    await dispatch(
-      saveTransaction({ id: editingId, data: payload })
-    ).unwrap()
-
-    setShowForm(false)
-    dispatch(fetchTransactions(query))
-    setMessage(editingId ? 'Transaction updated.' : 'Transaction added.')
-  } catch (err) {
-    const text =
-      typeof err === 'string'
-        ? err
-        : err?.message || 'Failed to save transaction.'
-    console.error('saveTransaction error:', err)
-    setMessage(text)
-  }
-}
 
   const deleteItem = async (item) => {
     if (!window.confirm(`Delete "${item.title}"?`)) return
@@ -123,23 +123,23 @@ function Transactions() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Transactions</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Transactions</h1>
+          <p className="text-sm sm:text-base text-gray-500 mt-1">
             View, filter, and manage your income and expenses.
           </p>
         </div>
         <button
           onClick={openCreate}
-          className="self-start bg-primary text-white font-medium px-4 py-2 rounded-md hover:opacity-90 transition"
+          className="w-full sm:w-auto self-start bg-primary text-white font-medium px-4 py-2.5 sm:py-2 rounded-md hover:opacity-90 transition text-sm sm:text-base"
         >
           Add Transaction
         </button>
       </div>
 
       <section className="rounded-lg border bg-white p-4 shadow-sm">
-        <div className="grid gap-3 md:grid-cols-5">
+        <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
           <input
             type="text"
             placeholder="Search..."
@@ -193,7 +193,7 @@ function Transactions() {
 
       {(error || message) && (
         <div
-          className={`px-4 py-3 rounded border ${
+          className={`px-4 py-3 rounded border text-sm ${
             error
               ? 'bg-red-100 border-red-400 text-red-700'
               : 'bg-green-100 border-green-400 text-green-700'
@@ -205,16 +205,16 @@ function Transactions() {
 
       <section className="overflow-hidden rounded-lg border bg-white shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[760px] text-left text-sm">
+          <table className="w-full min-w-[640px] sm:min-w-[760px] text-left text-sm">
             <thead className="bg-slate-50 text-slate-600">
               <tr>
-                <th className="px-4 py-3 font-medium">Title</th>
-                <th className="px-4 py-3 font-medium">Type</th>
-                <th className="px-4 py-3 font-medium">Category</th>
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium">Payment</th>
-                <th className="px-4 py-3 font-medium">Amount</th>
-                <th className="px-4 py-3 font-medium">Actions</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Title</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Type</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Category</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Date</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Payment</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Amount</th>
+                <th className="px-3 sm:px-4 py-3 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -227,10 +227,12 @@ function Transactions() {
               ) : transactions?.length > 0 ? (
                 transactions.map((item) => (
                   <tr key={item._id}>
-                    <td className="px-4 py-3 font-medium text-gray-800">{item.title}</td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 sm:px-4 py-3 font-medium text-gray-800 max-w-[140px] truncate">
+                      {item.title}
+                    </td>
+                    <td className="px-3 sm:px-4 py-3">
                       <span
-                        className={`text-xs font-medium px-2 py-1 rounded-full ${
+                        className={`text-xs font-medium px-2 py-1 rounded-full whitespace-nowrap ${
                           item.type === 'income'
                             ? 'bg-green-100 text-green-700'
                             : 'bg-red-100 text-red-700'
@@ -239,18 +241,18 @@ function Transactions() {
                         {item.type}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-600">{item.category}</td>
-                    <td className="px-4 py-3 text-gray-600">{formatDate(item.transactionDate)}</td>
-                    <td className="px-4 py-3 text-gray-600">{item.paymentMethod}</td>
+                    <td className="px-3 sm:px-4 py-3 text-gray-600 whitespace-nowrap">{item.category}</td>
+                    <td className="px-3 sm:px-4 py-3 text-gray-600 whitespace-nowrap">{formatDate(item.transactionDate)}</td>
+                    <td className="px-3 sm:px-4 py-3 text-gray-600 whitespace-nowrap">{item.paymentMethod}</td>
                     <td
-                      className={`px-4 py-3 font-medium ${
+                      className={`px-3 sm:px-4 py-3 font-medium whitespace-nowrap ${
                         item.type === 'income' ? 'text-green-600' : 'text-red-600'
                       }`}
                     >
                       {item.type === 'income' ? '+' : '-'}
                       {formatCurrency(Math.abs(item.amount))}
                     </td>
-                    <td className="px-4 py-3 space-x-3">
+                    <td className="px-3 sm:px-4 py-3 space-x-2 sm:space-x-3 whitespace-nowrap">
                       <button
                         onClick={() => openEdit(item)}
                         className="text-primary font-medium hover:underline"
@@ -277,11 +279,11 @@ function Transactions() {
           </table>
         </div>
 
-        <div className="flex items-center justify-between border-t px-4 py-3 text-sm">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t px-4 py-3 text-sm">
           <span className="text-gray-500">
             Page {page} of {totalPages}
           </span>
-          <div className="space-x-2">
+          <div className="flex gap-2">
             <button
               onClick={() => updateFilter('page', Math.max(page - 1, 1))}
               disabled={page <= 1}
@@ -301,27 +303,27 @@ function Transactions() {
       </section>
 
       {showForm && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
+        <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center p-0 sm:p-4 z-50">
+          <div className="bg-white rounded-t-lg sm:rounded-lg shadow-lg w-full sm:max-w-lg p-5 sm:p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-800">
                 {editingId ? 'Edit Transaction' : 'Add Transaction'}
               </h2>
               <button
                 onClick={() => setShowForm(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 text-xl leading-none"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={submitForm} className="grid gap-4 md:grid-cols-2">
+            <form onSubmit={submitForm} className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label className="block text-gray-700 font-medium mb-1 text-sm">Type</label>
                 <select
                   value={form.type}
                   onChange={(e) => setForm((prev) => ({ ...prev, type: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="expense">Expense</option>
                   <option value="income">Income</option>
@@ -335,7 +337,7 @@ function Transactions() {
                   value={form.title}
                   onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -348,7 +350,7 @@ function Transactions() {
                   value={form.amount}
                   onChange={(e) => setForm((prev) => ({ ...prev, amount: e.target.value }))}
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -357,7 +359,7 @@ function Transactions() {
                 <select
                   value={form.category}
                   onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -376,7 +378,7 @@ function Transactions() {
                   onChange={(e) =>
                     setForm((prev) => ({ ...prev, paymentMethod: e.target.value }))
                   }
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {paymentMethods.map((method) => (
                     <option key={method} value={method}>
@@ -395,11 +397,11 @@ function Transactions() {
                     setForm((prev) => ({ ...prev, transactionDate: e.target.value }))
                   }
                   required
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div className="sm:col-span-2">
                 <label className="block text-gray-700 font-medium mb-1 text-sm">
                   Description
                 </label>
@@ -409,15 +411,15 @@ function Transactions() {
                     setForm((prev) => ({ ...prev, description: e.target.value }))
                   }
                   rows={3}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
-              <div className="md:col-span-2">
+              <div className="sm:col-span-2">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-primary text-white font-medium py-2 rounded-md hover:opacity-90 transition disabled:opacity-50"
+                  className="w-full bg-primary text-white font-medium py-2.5 sm:py-2 rounded-md hover:opacity-90 transition disabled:opacity-50 text-sm sm:text-base"
                 >
                   {loading ? 'Saving...' : 'Save Transaction'}
                 </button>
