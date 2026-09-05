@@ -26,6 +26,13 @@ function ProtectedRoute() {
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />
 }
 
+// PublicRoute → reads { isAuthenticated } from state.auth;
+//               renders <Outlet /> when NOT authenticated, else <Navigate to="/dashboard" replace />
+function PublicRoute() {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Outlet />
+}
+
 function App() {
   const dispatch = useDispatch()
 
@@ -39,8 +46,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route element={<PublicRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
 
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
