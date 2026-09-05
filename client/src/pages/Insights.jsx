@@ -57,22 +57,11 @@ function Insights() {
             <div className="space-y-3">
               {insights.map((insight, i) => (
                 <div
-                  key={insight.id || i}
+                  key={i}
                   className="border rounded-md p-3 flex gap-3 items-start"
                 >
-                  <span
-                    className={`mt-1 h-2 w-2 rounded-full flex-shrink-0 ${
-                      insight.severity === 'high'
-                        ? 'bg-red-500'
-                        : insight.severity === 'medium'
-                        ? 'bg-amber-500'
-                        : 'bg-sky-500'
-                    }`}
-                  />
-                  <div>
-                    <p className="font-medium text-gray-800 text-sm">{insight.title}</p>
-                    <p className="text-gray-500 text-sm mt-0.5">{insight.description}</p>
-                  </div>
+                  <span className="mt-1 h-2 w-2 rounded-full flex-shrink-0 bg-sky-500" />
+                  <p className="text-gray-700 text-sm">{insight}</p>
                 </div>
               ))}
             </div>
