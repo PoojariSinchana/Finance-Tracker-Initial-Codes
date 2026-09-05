@@ -55,7 +55,7 @@ function Insights() {
             <p className="text-gray-500 text-sm">Generating insights...Running</p>
           ) : insights?.length > 0 ? (
             <div className="space-y-3">
-            <p style={{ color: 'red', fontWeight: 'bold' }}>
+            <p style={{ color: 'blue', fontWeight: 'bold' }}>
               DEBUG: insights.length = {insights?.length ?? 'undefined'}
             </p>
             {insights.map((insight, i) => (
