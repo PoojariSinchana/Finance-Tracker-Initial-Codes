@@ -24,11 +24,15 @@ const allowedOrigins = [
 app.use(helmet());
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
+    if (!origin) return callback(null, true);
 
-    return callback(new Error('Not allowed by CORS'));
+    const isAllowed =
+      allowedOrigins.includes(origin) || /\.vercel\.app$/.test(origin);
+
+    if (isAllowed) return callback(null, true);
+
+    console.warn('Blocked by CORS:', origin);
+    return callback(null, false);
   },
   credentials: true
 }));
