@@ -84,11 +84,11 @@ function Dashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <SummaryCard title="Total Income" value={formatCurrency(summary?.totalIncome || 0)} />
-        <SummaryCard title="Total Expense" value={formatCurrency(summary?.totalExpense || 0)} />
-        <SummaryCard title="Remaining Budget" value={formatCurrency(summary?.remainingBudget || 0)} />
-        <SummaryCard title="Savings" value={formatCurrency(summary?.savings || 0)} />
-      </div>
+      <SummaryCard label="Total Income" value={formatCurrency(summary?.totalIncome || 0)} />
+      <SummaryCard label="Total Expense" value={formatCurrency(summary?.totalExpense || 0)} />
+      <SummaryCard label="Remaining Budget" value={formatCurrency(summary?.remainingBudget || 0)} />
+      <SummaryCard label="Savings" value={formatCurrency(summary?.savings || 0)} />
+    </div>
 
       <div className="grid gap-6 xl:grid-cols-3">
         <section className="rounded-lg border bg-white p-5 shadow-sm xl:col-span-2">
