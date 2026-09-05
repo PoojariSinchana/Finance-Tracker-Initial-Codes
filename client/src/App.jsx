@@ -61,7 +61,7 @@ function App() {
             <Route path="/insights" element={<Insights />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/NotFound" element={<NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
 
