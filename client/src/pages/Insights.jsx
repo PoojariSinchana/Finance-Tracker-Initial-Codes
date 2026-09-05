@@ -61,7 +61,7 @@ function Insights() {
                   className="border rounded-md p-3 flex gap-3 items-start"
                 >
                   <span className="mt-1 h-2 w-2 rounded-full flex-shrink-0 bg-sky-500" />
-                  <p className="text-gray-700 text-sm">{insight}</p>
+                  <p className="text-gray-700 text-sm">{JSON.stringify(insight)}</p>
                 </div>
               ))}
             </div>
