@@ -55,16 +55,19 @@ function Insights() {
             <p className="text-gray-500 text-sm">Generating insights...</p>
           ) : insights?.length > 0 ? (
             <div className="space-y-3">
-              {insights.map((insight, i) => (
-                <div
-                  key={i}
-                  className="border rounded-md p-3 flex gap-3 items-start"
-                >
-                  <span className="mt-1 h-2 w-2 rounded-full flex-shrink-0 bg-sky-500" />
-                  <p className="text-gray-700 text-sm">{JSON.stringify(insight)}</p>
-                </div>
-              ))}
-            </div>
+            <p style={{ color: 'red', fontWeight: 'bold' }}>
+              DEBUG: insights.length = {insights?.length ?? 'undefined'}
+            </p>
+            {insights.map((insight, i) => (
+              <div
+                key={i}
+                className="border rounded-md p-3 flex gap-3 items-start"
+              >
+                <span className="mt-1 h-2 w-2 rounded-full flex-shrink-0 bg-sky-500" />
+                <p className="text-gray-700 text-sm">{JSON.stringify(insight)}</p>
+              </div>
+            ))}
+          </div>
           ) : (
             <p className="text-gray-500 text-sm">
               Add transactions to generate insights.
