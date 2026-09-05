@@ -52,7 +52,7 @@ function Insights() {
           </div>
 
           {loading ? (
-            <p className="text-gray-500 text-sm">Generating insights...</p>
+            <p className="text-gray-500 text-sm">Generating insights...Running</p>
           ) : insights?.length > 0 ? (
             <div className="space-y-3">
             <p style={{ color: 'red', fontWeight: 'bold' }}>
